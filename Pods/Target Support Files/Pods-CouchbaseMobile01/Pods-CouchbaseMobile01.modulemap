@@ -1,0 +1,6 @@
+framework module Pods_CouchbaseMobile01 {
+  umbrella header "Pods-CouchbaseMobile01-umbrella.h"
+
+  export *
+  module * { export * }
+}
