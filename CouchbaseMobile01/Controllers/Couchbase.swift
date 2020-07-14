@@ -3,9 +3,10 @@
 //  CouchbaseMobile01
 //
 //  Created by Daniel James on 6/1/20.
-//  Copyright © 2020 Daniel James. All rights reserved.
+//  Copyright © 2020 Couchbase. All rights reserved.
 //
 
+import UIKit
 import Foundation
 import CouchbaseLiteSwift
 
@@ -71,7 +72,12 @@ class Couchbase {
     
     // Given a User, add a row to the local DB
     func addUser(user: User) -> String {
-        let mutableDoc = MutableDocument()
+        var existing: String = "Added "
+        if database.document(withID: "contact::\(user.email)") != nil {
+            print("Contact w/email exists. Overwriting")
+            existing = "Updated "
+        }
+        let mutableDoc = MutableDocument(id: "contact::\(user.email)")
             .setString(user.firstName, forKey: K.CBStore.firstName)
             .setString(user.lastName, forKey: K.CBStore.lastName)
             .setString(user.phone, forKey: K.CBStore.phone)
@@ -82,38 +88,38 @@ class Couchbase {
         } catch {
             fatalError("Error saving document")
         }
-        return mutableDoc.id
+        return "\(existing) (ID: \(mutableDoc.id))"
     }
     
     func startReplication() {
         // ######################### Create replicators to push and pull changes to and from the cloud. ########
-        let targetURL = "ws://\(K.CBConnect.dbCBIP):\(K.CBConnect.dbCBSGPort)/\(K.CBConnect.dbCBBucket)"  // ws://111.222.333.444:8091/bucket
+        let targetURL = "ws://\(K.CBConnect.dbSGIP):\(K.CBConnect.dbSGSGPort)/\(K.CBConnect.dbSGBucket)"  // ws://192.168.1.9:8091/bucket
         let targetEndpoint = URLEndpoint(url: URL(string: targetURL)!)  // Translate URL String to Endpoint
         let replConfig = ReplicatorConfiguration(database: database, target: targetEndpoint) // Map replication btw local DB and remote CB Server
         replConfig.replicatorType = .pushAndPull
         replConfig.continuous = true  // continuous vs manual/triggered sync
         
         // Add authentication.
-        replConfig.authenticator = BasicAuthenticator(username: K.CBConnect.dbCBUser, password: K.CBConnect.dbCBPassword)
+        replConfig.authenticator = BasicAuthenticator(username: K.CBConnect.dbSGUser, password: K.CBConnect.dbSGPassword)
         
         // Create replicator as configured above
         self.replicator = Replicator(config: replConfig)
         
         // Listen to replicator status change events. This code isn't necessary for replication to happen,
         // but does set up a listener to respond to replication events
-//        self.replicator!.addChangeListener { (change) in
-//            if let error = change.status.error as NSError? {
-//                print("Error code :: \(error.code)")
-//            } else if change.status.activity == .stopped {
-//                print("Replication stopped")
-//            } else if change.status.activity == .idle {
-//                print ("Replication IDLE")
-//            } else  if change.status.activity == .busy {
-//                print("Replication is busy")
-//            } else {
-//                print ("I see a change, or something else...")
-//            }
-//        }
+        self.replicator!.addChangeListener { (change) in
+            if let error = change.status.error as NSError? {
+                print("\(Date().toString()): Error code :: \(error.code)")
+            } else if change.status.activity == .stopped {
+                print("\(Date().toString()): Replication stopped")
+            } else if change.status.activity == .idle {
+                print ("\(Date().toString()): Replication IDLE")
+            } else  if change.status.activity == .busy {
+                print("\(Date().toString()): Replication is busy")
+            } else {
+                print ("\(Date().toString()): I see a change, or something else...")
+            }
+        }
         
         // Listen to replication change events. This code isn't necessary for replication to happen,
         // but does set up a listener to respond to replication events (such as the delegate call to
@@ -121,16 +127,24 @@ class Couchbase {
         self.replicator?.addDocumentReplicationListener { ( replicator ) in
             for document in replicator.documents {
                 if (document.error == nil) {
-                    print("Doc ID :: \(document.id)")
+                    print("\(Date().toString()): Doc ID :: \(document.id)")
                     if (document.flags.contains(.deleted)) {
-                        print("Successfully replicated a deleted document")
+                        print("\(Date().toString()): Successfully replicated a deleted document")
                     }
                 }
             }
             self.delegate?.didReceiveSync(self, delegateDB: self.database, statusMessage: "\(replicator.documents.count) document(s) were updated via sync gateway")
         }
         
-        // Actually start the replication now that it's all set up
+        // Start the replication now that it's all set up
         self.replicator?.start()
+    }
+}
+
+extension Date {
+    func toString() -> String {
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return dateFormat.string(from: self)
     }
 }

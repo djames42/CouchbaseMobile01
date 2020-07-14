@@ -3,7 +3,7 @@
 //  CouchbaseMobile01
 //
 //  Created by Daniel James on 6/1/20.
-//  Copyright © 2020 Daniel James. All rights reserved.
+//  Copyright © 2020 Couchbase. All rights reserved.
 //
 
 struct K {
@@ -12,11 +12,11 @@ struct K {
     
     struct CBConnect {
         static let dbLiteName = "demo_sg"
-        static let dbCBIP = "192.168.1.9"
-        static let dbCBSGPort = "4984"
-        static let dbCBBucket = "demobucket"
-        static let dbCBUser = "sync_gateway"
-        static let dbCBPassword = "password"
+        static let dbSGIP = "192.168.1.9"
+        static let dbSGSGPort = "4984"
+        static let dbSGBucket = "demobucket"
+        static let dbSGUser = "sync_gateway"
+        static let dbSGPassword = "password"
     }
 
     struct CBStore {

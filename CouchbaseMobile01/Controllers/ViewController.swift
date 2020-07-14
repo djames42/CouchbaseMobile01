@@ -3,7 +3,7 @@
 //  CouchbaseMobile01
 //
 //  Created by Daniel James on 6/1/20.
-//  Copyright © 2020 Daniel James. All rights reserved.
+//  Copyright © 2020 Couchbase. All rights reserved.
 //
 
 import UIKit
@@ -21,12 +21,17 @@ class ViewController: UIViewController {
     var contacts: [User] = []
     
     var database = Couchbase()
-
+    let refreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.dataSource = self
         tableView.register(UINib(nibName: K.cellNibName, bundle: nil), forCellReuseIdentifier: K.cellIdentifier)
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshTable(_:)), for: .valueChanged)
+        
+        emailTextField.autocapitalizationType = .none
         
         database.startReplication()
         database.delegate = self
@@ -49,11 +54,20 @@ class ViewController: UIViewController {
                 let phoneNumber = phoneNumberTextField.text,
                 let email = emailTextField.text {
             // Valid fields - add to database
-            let docID = database.addUser(user: User(userID: 0, firstName: firstName, lastName: lastName, email: email, phone: phoneNumber))
+            let addUserMessage = database.addUser(user: User(userID: 0, firstName: firstName, lastName: lastName, email: email, phone: phoneNumber))
             
-            statusLabel.text = "\(K.CBStore.firstName):\(firstName) \(lastName) has been added (ID: \(`docID`))."
+            statusLabel.text = "\(firstName) \(lastName) has been \(addUserMessage))."
             self.populateData(queryDatabase: database.getDatabase())
         }
+    }
+    @IBAction func clearStatusButton(_ sender: UIButton) {
+        statusLabel.text=""
+        syncStatusLabel.text=""
+    }
+    
+    @objc func refreshTable(_ sender: Any) {
+        populateData(queryDatabase: database.getDatabase())
+        self.refreshControl.endRefreshing()
     }
 }
 
