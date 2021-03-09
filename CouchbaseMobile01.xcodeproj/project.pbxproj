@@ -18,8 +18,8 @@
 		401311902485E2D20045F6E0 /* Couchbase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4013118F2485E2D20045F6E0 /* Couchbase.swift */; };
 		401311932485FAF00045F6E0 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401311912485FAF00045F6E0 /* ContactCell.swift */; };
 		401311942485FAF00045F6E0 /* ContactCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 401311922485FAF00045F6E0 /* ContactCell.xib */; };
-		403454112487069B007FB0C8 /* CouchbaseLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4034540F24870695007FB0C8 /* CouchbaseLiteSwift.framework */; };
-		403454122487069B007FB0C8 /* CouchbaseLiteSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4034540F24870695007FB0C8 /* CouchbaseLiteSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4091A50625A3C8BA0060F5AC /* CouchbaseLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4091A50425A3C8910060F5AC /* CouchbaseLiteSwift.framework */; };
+		4091A50725A3C8BA0060F5AC /* CouchbaseLiteSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4091A50425A3C8910060F5AC /* CouchbaseLiteSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,7 +29,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				403454122487069B007FB0C8 /* CouchbaseLiteSwift.framework in Embed Frameworks */,
+				4091A50725A3C8BA0060F5AC /* CouchbaseLiteSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,7 +50,7 @@
 		4013118F2485E2D20045F6E0 /* Couchbase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Couchbase.swift; sourceTree = "<group>"; };
 		401311912485FAF00045F6E0 /* ContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		401311922485FAF00045F6E0 /* ContactCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactCell.xib; sourceTree = "<group>"; };
-		4034540F24870695007FB0C8 /* CouchbaseLiteSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CouchbaseLiteSwift.framework; sourceTree = "<group>"; };
+		4091A50425A3C8910060F5AC /* CouchbaseLiteSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CouchbaseLiteSwift.framework; sourceTree = "<group>"; };
 		8F5ED089492A2C5E44063DD6 /* Pods-CouchbaseMobile01.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CouchbaseMobile01.release.xcconfig"; path = "Target Support Files/Pods-CouchbaseMobile01/Pods-CouchbaseMobile01.release.xcconfig"; sourceTree = "<group>"; };
 		DB2247573468B4D20DF5AB42 /* Pods-CouchbaseMobile01.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CouchbaseMobile01.debug.xcconfig"; path = "Target Support Files/Pods-CouchbaseMobile01/Pods-CouchbaseMobile01.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -60,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				403454112487069B007FB0C8 /* CouchbaseLiteSwift.framework in Frameworks */,
+				4091A50625A3C8BA0060F5AC /* CouchbaseLiteSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,7 +140,7 @@
 		EE1962452AEBDF8588E2DE17 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4034540F24870695007FB0C8 /* CouchbaseLiteSwift.framework */,
+				4091A50425A3C8910060F5AC /* CouchbaseLiteSwift.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -174,7 +174,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Daniel James";
 				TargetAttributes = {
 					40131166248574EA0045F6E0 = {
@@ -302,6 +302,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -362,6 +363,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -410,6 +412,7 @@
 				PRODUCT_NAME = CBLiteDemo;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_WORKSPACE = YES;
 			};
 			name = Debug;
 		};
@@ -433,6 +436,7 @@
 				PRODUCT_NAME = CBLiteDemo;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_WORKSPACE = YES;
 			};
 			name = Release;
 		};

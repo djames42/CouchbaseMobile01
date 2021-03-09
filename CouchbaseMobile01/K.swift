@@ -12,7 +12,8 @@ struct K {
     
     struct CBConnect {
         static let dbLiteName = "demo_sg"
-        static let dbSGIP = "192.168.1.9"
+//        static let dbSGIP = "192.168.1.9"
+        static let dbSGIP = "127.0.0.1"
         static let dbSGSGPort = "4984"
         static let dbSGBucket = "demobucket"
         static let dbSGUser = "sync_gateway"

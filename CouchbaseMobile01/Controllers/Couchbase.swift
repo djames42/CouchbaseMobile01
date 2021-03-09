@@ -19,7 +19,7 @@ class Couchbase {
     var replicator: Replicator?
     
     var delegate: CouchbaseDelegate?
-
+    
     // class constructor which connects to/creates local DB
     //    and creates local Database object
     init() {
@@ -52,9 +52,9 @@ class Couchbase {
         do {
             for dbContacts in try contactsQuery.execute()  {
                 if let firstName = dbContacts.string(forKey: "first_name"),
-                    let lastName = dbContacts.string(forKey: "last_name"),
-                    let email = dbContacts.string(forKey: "email"),
-                    let phone = dbContacts.string(forKey: "phone") {
+                   let lastName = dbContacts.string(forKey: "last_name"),
+                   let email = dbContacts.string(forKey: "email"),
+                   let phone = dbContacts.string(forKey: "phone") {
                     
                     let contact = User(userID: 0,
                                        firstName: firstName,
@@ -96,7 +96,7 @@ class Couchbase {
         let targetURL = "ws://\(K.CBConnect.dbSGIP):\(K.CBConnect.dbSGSGPort)/\(K.CBConnect.dbSGBucket)"  // ws://192.168.1.9:8091/bucket
         let targetEndpoint = URLEndpoint(url: URL(string: targetURL)!)  // Translate URL String to Endpoint
         let replConfig = ReplicatorConfiguration(database: database, target: targetEndpoint) // Map replication btw local DB and remote CB Server
-        replConfig.replicatorType = .pushAndPull
+        replConfig.replicatorType = .pushAndPull // Can also be .push or .pull for one-way sync
         replConfig.continuous = true  // continuous vs manual/triggered sync
         
         // Add authentication.
@@ -114,6 +114,8 @@ class Couchbase {
                 print("\(Date().toString()): Replication stopped")
             } else if change.status.activity == .idle {
                 print ("\(Date().toString()): Replication IDLE")
+            } else if change.status.activity == .offline {
+                print ("\(Date().toString()): Replication is Offline!")
             } else  if change.status.activity == .busy {
                 print("\(Date().toString()): Replication is busy")
             } else {
