@@ -1,0 +1,30 @@
+[
+  {
+    "email": "blinded_by@science.com",
+    "first_name": "Thomas",
+    "last_name": "Dolby",
+    "phone": "201-555-1982",
+    "type": "contact"
+  },
+  {
+    "email": "hunting_wabbits@looneytoons.com",
+    "first_name": "Elmer",
+    "last_name": "Fudd",
+    "phone": "808-WAB-BITS",
+    "type": "contact"
+  },
+  {
+    "email": "ieatcarrots@duckseason.com",
+    "first_name": "Bugs",
+    "last_name": "Bunny",
+    "phone": "425-555-9613",
+    "type": "contact"
+  },
+  {
+    "email": "youre_dispicable@rabbitseason.com",
+    "first_name": "Daffy",
+    "last_name": "Duck",
+    "phone": "867-5309",
+    "type": "contact"
+  }
+]
