@@ -1,0 +1,30 @@
+[
+{
+"first_name": "Daniel",
+"last_name": "James",
+"email": "daniel.james@couchbase.com",
+"phone": "206-555-1212",
+"type": "contact"
+},
+{
+"first_name": "Peter",
+"last_name": "Reale",
+"email": "peter.reale@couchbase.com",
+"phone": "(310) 699-5015",
+"type": "contact"
+},
+{
+"first_name": "Pete",
+"last_name": "McLean",
+"email": "peter.mclean@couchbase.com",
+"phone": "(425) 445-2771",
+"type": "contact"
+},
+{
+"first_name": "Tim",
+"last_name": "Wong",
+"email": "tim.wong@couchbase.com",
+"phone": "415-203-2233",
+"type": "contact"
+}
+]
