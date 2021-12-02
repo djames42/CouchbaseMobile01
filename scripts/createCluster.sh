@@ -45,8 +45,6 @@ echo "**** Stopping and removing existing containers ****"
 ################################################################################
 # Create Cluster Container
 echo "**** Creating Cluster Container ****"
-# echo "**************************************************"
-# echo " "
 docker run -d -v "$LOCPATH/data":/cb_share \
 	-p 8091-8096:8091-8096 \
 	-p 11210-11211:11210-11211 \
@@ -66,60 +64,40 @@ fi
 # Initialize CB Server Node
 echo " " ; echo " "
 echo "**** Initialize CB Server Node  ****"
-# echo "**************************************************"
-# echo " "
 curl -sS  --output /dev/null -u Administrator:password -v -X POST http://127.0.0.1:8091/nodes/self/controller/settings \
 	-d path=/opt/couchbase/var/lib/couchbase/data \
 	-d index_path=/opt/couchbase/var/lib/couchbase/indexes \
-	-d cbas_path=/opt/couchbase/var/lib/couchbase/eventing \
-	-d eventing_path=/opt/couchbase/var/lib/couchbase/analytics 2>/dev/null
+	-d cbas_path=/opt/couchbase/var/lib/couchbase/cbas \
+	-d eventing_path=/opt/couchbase/var/lib/couchbase/eventing 2>/dev/null
 
 # Rename Node
-# echo " " ; echo " "
-echo "**** Renaming Cluster ****"
-# echo "**************************************************"
-# echo " "
+echo "**** Renaming Node ****"
 curl -sS  --output /dev/null -u Administrator:password -v -X POST http://127.0.0.1:8091/node/controller/rename \
 	-d hostname=127.0.0.1 2>/dev/null
 
 # Set up services (Data [kv], Index, Query [n1ql], FTS)
-# echo " " ; echo " "
 echo "**** Set up Cluster Services (Data, Index, Query, FTS) ****"
-# echo "**************************************************"
-# echo " "
 curl -sS  --output /dev/null -u Administrator:password -v -X POST http://127.0.0.1:8091/node/controller/setupServices \
 	-d services=kv%2Cindex%2Cn1ql%2Cfts 2>/dev/null
-# echo " " ; echo " "
 echo "**** Setting Cluster Storage Mode ****"
-# echo "**************************************************"
-# echo " "
 curl -sS  --output /dev/null -u Administrator:password -v -X POST http://127.0.0.1:8091/settings/indexes -d storageMode=plasma 2>/dev/null
 
 # Set Memory Quotas
-# echo " " ; echo " "
 echo "**** Set Service Memory Quotas  ****"
-# echo "**************************************************"
-# echo " "
 curl -sS  --output /dev/null -u Administrator:password -v -X POST http://127.0.0.1:8091/pools/default \
 	-d memoryQuota=1024 \
 	-d indexMemoryQuota=512 \
 	-d ftsMemoryQuota=512 2>/dev/null
 
 # Use Administrator/password for console login
-# echo " " ; echo " "
 echo "**** Set console login credentials ****"
-# echo "**************************************************"
-# echo " "
 curl -sS  --output /dev/null -u Administrator:password -v -X POST http://127.0.0.1:8091/settings/web \
 	-d password=password \
 	-d username=Administrator \
 	-d port=8091 2>/dev/null
 
 # Create bucket: demobucket - 512mb memory quota, no replicas, enable flush (optional)
-# echo " " ; echo " "
 echo "**** Creating Demo Bucket       ****"
-# echo "**************************************************"
-# echo " "
 curl -sS  -X POST --output /dev/null -u Administrator:password http://127.0.0.1:8091/pools/default/buckets \
 	-d name=demobucket -d ramQuotaMB=256 -d authType=sasl -d saslPassword=9832cae99c0972343d54760f124d1f59 \
 	-d replicaNumber=0 \
@@ -130,33 +108,21 @@ sleep 5
 
 # Set up Indexes
 # Primary Index
-# echo " " ; echo " "
 echo "**** Create Index: Primary Index ****"
-# echo "**************************************************"
-# echo " "
 curl -sS  --output /dev/null -u Administrator:password http://127.0.0.1:8093/query/service -d 'statement=CREATE PRIMARY INDEX demo_pidx ON demobucket'
 # GSI: type
-# echo " " ; echo " "
 echo "**** Create Index: GSI Index     ****"
-# echo "**************************************************"
-# echo " "
 curl -sS  --output /dev/null -u Administrator:password http://127.0.0.1:8093/query/service -d 'statement=CREATE INDEX demo_typeIDX ON demobucket(type)'
 
 # Create user: sync_gateway
-# echo " " ; echo " "
 echo "**** Creating Sync Gateway User ****"
-# echo "**************************************************"
-# echo " "
 curl --output /dev/null -sS  -X PUT --data "name=Sync Gateway&roles=ro_admin,bucket_full_access[demobucket]&password=password" \
 	-H "Content-Type: application/x-www-form-urlencoded" \
 	http://Administrator:password@127.0.0.1:8091/settings/rbac/users/local/sync_gateway
 
 ################################################################################
 # Create Sync Gateway container
-# echo " " ; echo " "
 echo "**** Creating Sync Gateway Container ****"
-# echo "**************************************************"
-# echo " "
 docker run -p 4984-4985:4984-4985 \
 	--network sync_gateway \
 	--name sync-gateway \
@@ -176,14 +142,9 @@ fi
 
 echo " " ; echo " "
 echo "**** Creating Sync Gateway User ****"
-# echo "**************************************************"
-# echo " "
 curl --output /dev/null -sS  --request POST -H 'Content-Type: application/json' \
 	--data '{ "name": "sync_gateway", "password": "password", "admin_channels": [ "*" ], "admin_roles": null,"email": "daniel.james@couchbase.com", "disabled": false }'  \
 	http://localhost:4985/demobucket/_user/ 2>/dev/null
 
-# echo " " ; echo " "
 echo "**** Loading sample users into CB ****"
-# echo "**************************************************"
-# echo " "
 docker exec -it cb_sg cbimport json -c couchbase://127.0.0.1 -u Administrator -p password -b demobucket -f list -d file://cb_share/names.json -t 1 -g contact::%email%::01
