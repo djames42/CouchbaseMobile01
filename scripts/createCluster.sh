@@ -38,6 +38,13 @@ if [ ! -d ${LOCPATH} ]; then # this shouldn't happen unless, of course, the abov
 	exit 99
 fi
 
+CB_CLUSTERNAME="Mobile Demo"
+
+# DEBUG Option: uncomment the following to disable output from curl statements
+#               comment the following to allow full output from curl statements
+CURL_DEBUG="-sS --output /dev/null" # Uncomment this to silence output
+# CURL_DEBUG="-v" # Uncomment this to get full verbosity
+
 # Stop and remove existing containers, if they're running
 echo "**** Stopping and removing existing containers ****"
 ( docker stop cb_sg ; docker stop sync-gateway ; docker rm cb_sg ; docker rm sync-gateway ) >/dev/null 2>/dev/null
@@ -64,7 +71,7 @@ fi
 # Initialize CB Server Node
 echo " " ; echo " "
 echo "**** Initialize CB Server Node  ****"
-curl -sS  --output /dev/null -u Administrator:password -v -X POST http://127.0.0.1:8091/nodes/self/controller/settings \
+curl ${CURL_DEBUG} -u Administrator:password -v -X POST http://127.0.0.1:8091/nodes/self/controller/settings \
 	-d path=/opt/couchbase/var/lib/couchbase/data \
 	-d index_path=/opt/couchbase/var/lib/couchbase/indexes \
 	-d cbas_path=/opt/couchbase/var/lib/couchbase/cbas \
@@ -72,26 +79,26 @@ curl -sS  --output /dev/null -u Administrator:password -v -X POST http://127.0.0
 
 # Rename Node
 echo "**** Renaming Node ****"
-curl -sS  --output /dev/null -u Administrator:password -v -X POST http://127.0.0.1:8091/node/controller/rename \
+curl ${CURL_DEBUG} -u Administrator:password -v -X POST http://127.0.0.1:8091/node/controller/rename \
 	-d hostname=127.0.0.1 2>/dev/null
 
 # Set up services (Data [kv], Index, Query [n1ql], FTS)
 echo "**** Set up Cluster Services (Data, Index, Query, FTS) ****"
-curl -sS  --output /dev/null -u Administrator:password -v -X POST http://127.0.0.1:8091/node/controller/setupServices \
+curl ${CURL_DEBUG} -u Administrator:password -v -X POST http://127.0.0.1:8091/node/controller/setupServices \
 	-d services=kv%2Cindex%2Cn1ql%2Cfts 2>/dev/null
 echo "**** Setting Cluster Storage Mode ****"
-curl -sS  --output /dev/null -u Administrator:password -v -X POST http://127.0.0.1:8091/settings/indexes -d storageMode=plasma 2>/dev/null
+curl ${CURL_DEBUG} -u Administrator:password -v -X POST http://127.0.0.1:8091/settings/indexes -d storageMode=plasma 2>/dev/null
 
 # Set Memory Quotas
 echo "**** Set Service Memory Quotas  ****"
-curl -sS  --output /dev/null -u Administrator:password -v -X POST http://127.0.0.1:8091/pools/default \
+curl ${CURL_DEBUG} -u Administrator:password -v -X POST http://127.0.0.1:8091/pools/default \
 	-d memoryQuota=1024 \
 	-d indexMemoryQuota=512 \
 	-d ftsMemoryQuota=512 2>/dev/null
 
 # Use Administrator/password for console login
 echo "**** Set console login credentials ****"
-curl -sS  --output /dev/null -u Administrator:password -v -X POST http://127.0.0.1:8091/settings/web \
+curl ${CURL_DEBUG} -u Administrator:password -v -X POST http://127.0.0.1:8091/settings/web \
 	-d password=password \
 	-d username=Administrator \
 	-d port=8091 2>/dev/null
@@ -109,16 +116,20 @@ sleep 5
 # Set up Indexes
 # Primary Index
 echo "**** Create Index: Primary Index ****"
-curl -sS  --output /dev/null -u Administrator:password http://127.0.0.1:8093/query/service -d 'statement=CREATE PRIMARY INDEX demo_pidx ON demobucket'
+curl ${CURL_DEBUG} -u Administrator:password http://127.0.0.1:8093/query/service -d 'statement=CREATE PRIMARY INDEX demo_pidx ON demobucket'
 # GSI: type
 echo "**** Create Index: GSI Index     ****"
-curl -sS  --output /dev/null -u Administrator:password http://127.0.0.1:8093/query/service -d 'statement=CREATE INDEX demo_typeIDX ON demobucket(type)'
+curl ${CURL_DEBUG} -u Administrator:password http://127.0.0.1:8093/query/service -d 'statement=CREATE INDEX demo_typeIDX ON demobucket(type)'
 
 # Create user: sync_gateway
 echo "**** Creating Sync Gateway User ****"
-curl --output /dev/null -sS  -X PUT --data "name=Sync Gateway&roles=ro_admin,bucket_full_access[demobucket]&password=password" \
+curl ${CURL_DEBUG}  -X PUT --data "name=Sync Gateway&roles=ro_admin,bucket_full_access[demobucket]&password=password" \
 	-H "Content-Type: application/x-www-form-urlencoded" \
 	http://Administrator:password@127.0.0.1:8091/settings/rbac/users/local/sync_gateway
+
+echo "**** Renaming Cluster"
+curl ${CURL_DEBUG} -X POST --output /dev/null -u Administrator:password http://127.0.0.1:8091/pools/default \
+    -d clusterName="${CB_CLUSTERNAME}"
 
 ################################################################################
 # Create Sync Gateway container
@@ -142,7 +153,7 @@ fi
 
 echo " " ; echo " "
 echo "**** Creating Sync Gateway User ****"
-curl --output /dev/null -sS  --request POST -H 'Content-Type: application/json' \
+curl ${CURL_DEBUG}  --request POST -H 'Content-Type: application/json' \
 	--data '{ "name": "sync_gateway", "password": "password", "admin_channels": [ "*" ], "admin_roles": null,"email": "daniel.james@couchbase.com", "disabled": false }'  \
 	http://localhost:4985/demobucket/_user/ 2>/dev/null
 
