@@ -1,11 +1,11 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.1.3 (swiftlang-1100.0.282.1 clang-1100.0.33.15)
+// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
 // swift-module-flags: -target arm64-apple-ios9.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name CouchbaseLiteSwift
 import CoreML
 @_exported import CouchbaseLiteSwift
 import Foundation
 import Swift
-final public class PredictiveIndex : CouchbaseLiteSwift.Index {
+@_hasMissingDesignatedInitializers final public class PredictiveIndex : CouchbaseLiteSwift.Index {
   @objc deinit
 }
 public protocol Authenticator {
@@ -24,19 +24,19 @@ public struct SessionAuthenticator {
 public protocol PredictiveModel {
   func predict(input: CouchbaseLiteSwift.DictionaryObject) -> CouchbaseLiteSwift.DictionaryObject?
 }
-public class Prediction {
+@_hasMissingDesignatedInitializers public class Prediction {
   public func registerModel(_ model: CouchbaseLiteSwift.PredictiveModel, withName name: Swift.String)
   public func unregisterModel(withName name: Swift.String)
   @objc deinit
 }
-public class IndexBuilder {
+@_hasMissingDesignatedInitializers public class IndexBuilder {
   public static func valueIndex(items: CouchbaseLiteSwift.ValueIndexItem...) -> CouchbaseLiteSwift.ValueIndex
   public static func valueIndex(items: [CouchbaseLiteSwift.ValueIndexItem]) -> CouchbaseLiteSwift.ValueIndex
   public static func fullTextIndex(items: CouchbaseLiteSwift.FullTextIndexItem...) -> CouchbaseLiteSwift.FullTextIndex
   public static func fullTextIndex(items: [CouchbaseLiteSwift.FullTextIndexItem]) -> CouchbaseLiteSwift.FullTextIndex
   @objc deinit
 }
-final public class Having : CouchbaseLiteSwift.Query {
+@_hasMissingDesignatedInitializers final public class Having : CouchbaseLiteSwift.Query {
   final public func orderBy(_ orderings: CouchbaseLiteSwift.OrderingProtocol...) -> CouchbaseLiteSwift.OrderBy
   final public func orderBy(_ orderings: [CouchbaseLiteSwift.OrderingProtocol]) -> CouchbaseLiteSwift.OrderBy
   final public func limit(_ limit: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.Limit
@@ -53,7 +53,7 @@ public struct URLEndpoint {
   public let url: Foundation.URL
   public init(url: Foundation.URL)
 }
-final public class GroupBy : CouchbaseLiteSwift.Query {
+@_hasMissingDesignatedInitializers final public class GroupBy : CouchbaseLiteSwift.Query {
   final public func having(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.Having
   final public func orderBy(_ orderings: CouchbaseLiteSwift.OrderingProtocol...) -> CouchbaseLiteSwift.OrderBy
   final public func orderBy(_ orderings: [CouchbaseLiteSwift.OrderingProtocol]) -> CouchbaseLiteSwift.OrderBy
@@ -68,7 +68,7 @@ extension Database {
   final public func createIndex(_ index: CouchbaseLiteSwift.Index, withName name: Swift.String) throws
   final public func deleteIndex(forName name: Swift.String) throws
 }
-public class LogFileConfiguration {
+@_hasMissingDesignatedInitializers public class LogFileConfiguration {
   final public let directory: Swift.String
   public var usePlainText: Swift.Bool {
     get
@@ -90,7 +90,7 @@ public protocol DataSourceProtocol {
 public protocol DataSourceAs : CouchbaseLiteSwift.DataSourceProtocol {
   func `as`(_ alias: Swift.String) -> CouchbaseLiteSwift.DataSourceProtocol
 }
-final public class DataSource {
+@_hasMissingDesignatedInitializers final public class DataSource {
   public static func database(_ database: CouchbaseLiteSwift.Database) -> CouchbaseLiteSwift.DataSourceAs
   @objc deinit
 }
@@ -100,6 +100,7 @@ public enum LogDomain : Swift.UInt8 {
   case query
   case replicator
   case network
+  case listener
   public typealias RawValue = Swift.UInt8
   public init?(rawValue: Swift.UInt8)
   public var rawValue: Swift.UInt8 {
@@ -127,6 +128,37 @@ public struct DocumentChange {
   public let database: CouchbaseLiteSwift.Database
   public let documentID: Swift.String
 }
+public let certAttrCommonName: Swift.String
+public let certAttrPseudonym: Swift.String
+public let certAttrGivenName: Swift.String
+public let certAttrSurname: Swift.String
+public let certAttrOrganization: Swift.String
+public let certAttrOrganizationUnit: Swift.String
+public let certAttrPostalAddress: Swift.String
+public let certAttrLocality: Swift.String
+public let certAttrPostalCode: Swift.String
+public let certAttrStateOrProvince: Swift.String
+public let certAttrCountry: Swift.String
+public let certAttrEmailAddress: Swift.String
+public let certAttrHostname: Swift.String
+public let certAttrURL: Swift.String
+public let certAttrIPAddress: Swift.String
+public let certAttrRegisteredID: Swift.String
+@_hasMissingDesignatedInitializers @available(OSX 10.12, iOS 10.0, *)
+public class TLSIdentity {
+  public var certs: [Security.SecCertificate] {
+    get
+  }
+  public var expiration: Foundation.Date {
+    get
+  }
+  public static func identity(withLabel label: Swift.String) throws -> CouchbaseLiteSwift.TLSIdentity?
+  public static func identity(withIdentity identity: Security.SecIdentity, certs: [Security.SecCertificate]?) throws -> CouchbaseLiteSwift.TLSIdentity
+  public static func createIdentity(forServer server: Swift.Bool, attributes: [Swift.String : Swift.String], expiration: Foundation.Date?, label: Swift.String) throws -> CouchbaseLiteSwift.TLSIdentity
+  public static func importIdentity(withData data: Foundation.Data, password: Swift.String?, label: Swift.String) throws -> CouchbaseLiteSwift.TLSIdentity
+  public static func deleteIdentity(withLabel label: Swift.String) throws
+  @objc deinit
+}
 public struct LogDomains : Swift.OptionSet {
   public let rawValue: Swift.Int
   public init(rawValue: Swift.Int)
@@ -139,7 +171,7 @@ public struct LogDomains : Swift.OptionSet {
   public typealias ArrayLiteralElement = CouchbaseLiteSwift.LogDomains
   public typealias RawValue = Swift.Int
 }
-public class ConsoleLogger {
+@_hasMissingDesignatedInitializers public class ConsoleLogger {
   public var level: CouchbaseLiteSwift.LogLevel {
     get
     set
@@ -150,10 +182,36 @@ public class ConsoleLogger {
   }
   @objc deinit
 }
+@available(OSX 10.12, iOS 10.0, *)
+public class URLEndpointListener {
+  public struct ConnectionStatus {
+    public let connectionCount: Swift.UInt64
+    public let activeConnectionCount: Swift.UInt64
+  }
+  public var config: CouchbaseLiteSwift.URLEndpointListenerConfiguration {
+    get
+  }
+  public var port: Swift.UInt16? {
+    get
+  }
+  public var tlsIdentity: CouchbaseLiteSwift.TLSIdentity? {
+    get
+  }
+  public var urls: [Foundation.URL]? {
+    get
+  }
+  public var status: CouchbaseLiteSwift.URLEndpointListener.ConnectionStatus {
+    get
+  }
+  public init(config: CouchbaseLiteSwift.URLEndpointListenerConfiguration)
+  public func start() throws
+  public func stop()
+  @objc deinit
+}
 extension Database {
   public static let prediction: CouchbaseLiteSwift.Prediction
 }
-public class Parameters {
+@_hasMissingDesignatedInitializers public class Parameters {
   convenience public init()
   convenience public init(parameters: CouchbaseLiteSwift.Parameters?)
   public func value(forName name: Swift.String) -> Any?
@@ -181,7 +239,7 @@ public class Parameters {
   public func setValue(_ value: Any?, forName name: Swift.String) -> CouchbaseLiteSwift.Parameters
   @objc deinit
 }
-public class DatabaseConfiguration {
+@_hasMissingDesignatedInitializers public class DatabaseConfiguration {
   public var directory: Swift.String {
     get
     set
@@ -194,7 +252,7 @@ public class DatabaseConfiguration {
   convenience public init(config: CouchbaseLiteSwift.DatabaseConfiguration?)
   @objc deinit
 }
-final public class ArrayExpressionSatisfies {
+@_hasMissingDesignatedInitializers final public class ArrayExpressionSatisfies {
   final public func satisfies(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.ExpressionProtocol
   @objc deinit
 }
@@ -218,7 +276,7 @@ public protocol MutableArrayFragment {
 public protocol MutableDictionaryFragment {
   subscript(key: Swift.String) -> CouchbaseLiteSwift.MutableFragment { get }
 }
-final public class MutableFragment : CouchbaseLiteSwift.Fragment, CouchbaseLiteSwift.MutableDictionaryFragment, CouchbaseLiteSwift.MutableArrayFragment {
+@_hasMissingDesignatedInitializers final public class MutableFragment : CouchbaseLiteSwift.Fragment, CouchbaseLiteSwift.MutableDictionaryFragment, CouchbaseLiteSwift.MutableArrayFragment {
   override final public var value: Any? {
     get
     set
@@ -275,7 +333,7 @@ final public class MutableFragment : CouchbaseLiteSwift.Fragment, CouchbaseLiteS
   }
   @objc deinit
 }
-public class ListenerToken {
+@_hasMissingDesignatedInitializers public class ListenerToken {
   @objc deinit
 }
 @available(OSX 10.13, iOS 11.0, *)
@@ -286,7 +344,7 @@ open class CoreMLPredictiveModel : CouchbaseLiteSwift.PredictiveModel {
   open func predict(input: CouchbaseLiteSwift.DictionaryObject) -> CouchbaseLiteSwift.DictionaryObject?
   @objc deinit
 }
-final public class Function {
+@_hasMissingDesignatedInitializers final public class Function {
   public static func avg(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.ExpressionProtocol
   public static func count(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.ExpressionProtocol
   public static func min(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.ExpressionProtocol
@@ -335,7 +393,7 @@ public protocol SortOrder : CouchbaseLiteSwift.OrderingProtocol {
   func ascending() -> CouchbaseLiteSwift.OrderingProtocol
   func descending() -> CouchbaseLiteSwift.OrderingProtocol
 }
-final public class Ordering {
+@_hasMissingDesignatedInitializers final public class Ordering {
   public static func property(_ property: Swift.String) -> CouchbaseLiteSwift.SortOrder
   public static func expression(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.SortOrder
   @objc deinit
@@ -369,8 +427,13 @@ final public class Replicator {
   final public var status: CouchbaseLiteSwift.Replicator.Status {
     get
   }
+  final public var serverCertificate: Security.SecCertificate? {
+    get
+  }
   final public func start()
+  final public func start(reset: Swift.Bool)
   final public func stop()
+  @available(*, deprecated, message: "Use start(reset:) instead.")
   final public func resetCheckpoint()
   @discardableResult
   final public func addChangeListener(_ listener: @escaping (CouchbaseLiteSwift.ReplicatorChange) -> Swift.Void) -> CouchbaseLiteSwift.ListenerToken
@@ -381,6 +444,8 @@ final public class Replicator {
   @discardableResult
   final public func addDocumentReplicationListener(withQueue queue: Dispatch.DispatchQueue?, _ listener: @escaping (CouchbaseLiteSwift.DocumentReplication) -> Swift.Void) -> CouchbaseLiteSwift.ListenerToken
   final public func removeChangeListener(withToken token: CouchbaseLiteSwift.ListenerToken)
+  final public func pendingDocumentIds() throws -> Swift.Set<Swift.String>
+  final public func isDocumentPending(_ documentID: Swift.String) throws -> Swift.Bool
   @objc deinit
 }
 public struct DocumentReplication {
@@ -393,7 +458,7 @@ public struct ReplicatedDocument {
   public let flags: CouchbaseLiteSwift.DocumentFlags
   public let error: Swift.Error?
 }
-final public class DocumentFragment : CouchbaseLiteSwift.DictionaryFragment {
+@_hasMissingDesignatedInitializers final public class DocumentFragment : CouchbaseLiteSwift.DictionaryFragment {
   final public var exists: Swift.Bool {
     get
   }
@@ -405,7 +470,18 @@ final public class DocumentFragment : CouchbaseLiteSwift.DictionaryFragment {
   }
   @objc deinit
 }
-final public class Result : CouchbaseLiteSwift.ArrayProtocol, CouchbaseLiteSwift.DictionaryProtocol, Swift.Sequence {
+@available(OSX 10.12, iOS 10.0, *)
+public class ListenerPasswordAuthenticator {
+  public init(authenticator: @escaping (Swift.String, Swift.String) -> Swift.Bool)
+  @objc deinit
+}
+@available(OSX 10.12, iOS 10.0, *)
+public class ListenerCertificateAuthenticator {
+  public init(rootCerts: [Security.SecCertificate])
+  public init(authenticator: @escaping ([Security.SecCertificate]) -> Swift.Bool)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers final public class Result : CouchbaseLiteSwift.ArrayProtocol, CouchbaseLiteSwift.DictionaryProtocol, Swift.Sequence {
   final public var count: Swift.Int {
     get
   }
@@ -447,7 +523,7 @@ final public class Result : CouchbaseLiteSwift.ArrayProtocol, CouchbaseLiteSwift
     get
   }
   @objc deinit
-  public typealias Element = Swift.String
+  public typealias Element = Swift.IndexingIterator<[Swift.String]>.Element
   public typealias Iterator = Swift.IndexingIterator<[Swift.String]>
 }
 public struct DatabaseChange {
@@ -459,7 +535,7 @@ public protocol JoinProtocol {
 public protocol JoinOnProtocol : CouchbaseLiteSwift.JoinProtocol {
   func on(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.JoinProtocol
 }
-public class Join {
+@_hasMissingDesignatedInitializers public class Join {
   public static func join(_ datasource: CouchbaseLiteSwift.DataSourceProtocol) -> CouchbaseLiteSwift.JoinOnProtocol
   public static func leftJoin(_ datasource: CouchbaseLiteSwift.DataSourceProtocol) -> CouchbaseLiteSwift.JoinOnProtocol
   public static func leftOuterJoin(_ datasource: CouchbaseLiteSwift.DataSourceProtocol) -> CouchbaseLiteSwift.JoinOnProtocol
@@ -473,7 +549,7 @@ public protocol PropertyExpressionProtocol : CouchbaseLiteSwift.ExpressionProtoc
 extension IndexBuilder {
   public static func predictiveIndex(model: Swift.String, input: CouchbaseLiteSwift.ExpressionProtocol, properties: [Swift.String]? = nil) -> CouchbaseLiteSwift.PredictiveIndex
 }
-final public class ArrayFunction {
+@_hasMissingDesignatedInitializers final public class ArrayFunction {
   public static func contains(_ expression: CouchbaseLiteSwift.ExpressionProtocol, value: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.ExpressionProtocol
   public static func length(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.ExpressionProtocol
   @objc deinit
@@ -486,11 +562,11 @@ extension Function {
 public protocol FullTextExpressionProtocol {
   func match(_ query: Swift.String) -> CouchbaseLiteSwift.ExpressionProtocol
 }
-final public class FullTextExpression {
+@_hasMissingDesignatedInitializers final public class FullTextExpression {
   public static func index(_ name: Swift.String) -> CouchbaseLiteSwift.FullTextExpressionProtocol
   @objc deinit
 }
-final public class ArrayExpressionIn {
+@_hasMissingDesignatedInitializers final public class ArrayExpressionIn {
   final public func `in`(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.ArrayExpressionSatisfies
   @objc deinit
 }
@@ -544,7 +620,7 @@ public protocol ArrayFragment {
 public protocol DictionaryFragment {
   subscript(key: Swift.String) -> CouchbaseLiteSwift.Fragment { get }
 }
-public class Fragment : CouchbaseLiteSwift.FragmentProtocol, CouchbaseLiteSwift.ArrayFragment, CouchbaseLiteSwift.DictionaryFragment {
+@_hasMissingDesignatedInitializers public class Fragment : CouchbaseLiteSwift.FragmentProtocol, CouchbaseLiteSwift.ArrayFragment, CouchbaseLiteSwift.DictionaryFragment {
   public var value: Any? {
     get
   }
@@ -594,7 +670,7 @@ public class Fragment : CouchbaseLiteSwift.FragmentProtocol, CouchbaseLiteSwift.
 }
 public protocol VariableExpressionProtocol : CouchbaseLiteSwift.ExpressionProtocol {
 }
-public class Query {
+@_hasMissingDesignatedInitializers public class Query {
   public var parameters: CouchbaseLiteSwift.Parameters? {
     get
     set
@@ -608,7 +684,7 @@ public class Query {
   public func removeChangeListener(withToken token: CouchbaseLiteSwift.ListenerToken)
   @objc deinit
 }
-final public class QueryBuilder {
+@_hasMissingDesignatedInitializers final public class QueryBuilder {
   public static func select(_ results: CouchbaseLiteSwift.SelectResultProtocol...) -> CouchbaseLiteSwift.Select
   public static func select(_ results: [CouchbaseLiteSwift.SelectResultProtocol]) -> CouchbaseLiteSwift.Select
   public static func selectDistinct(_ results: CouchbaseLiteSwift.SelectResultProtocol...) -> CouchbaseLiteSwift.Select
@@ -626,7 +702,7 @@ public protocol PredictionFunction : CouchbaseLiteSwift.ExpressionProtocol {
 extension Function {
   public static func prediction(model: Swift.String, input: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.PredictionFunction
 }
-final public class Joins : CouchbaseLiteSwift.Query {
+@_hasMissingDesignatedInitializers final public class Joins : CouchbaseLiteSwift.Query {
   final public func `where`(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.Where
   final public func orderBy(_ orderings: CouchbaseLiteSwift.OrderingProtocol...) -> CouchbaseLiteSwift.OrderBy
   final public func orderBy(_ orderings: [CouchbaseLiteSwift.OrderingProtocol]) -> CouchbaseLiteSwift.OrderBy
@@ -634,20 +710,20 @@ final public class Joins : CouchbaseLiteSwift.Query {
   final public func limit(_ limit: CouchbaseLiteSwift.ExpressionProtocol, offset: CouchbaseLiteSwift.ExpressionProtocol?) -> CouchbaseLiteSwift.Limit
   @objc deinit
 }
-final public class ResultSet : Swift.Sequence, Swift.IteratorProtocol {
+@_hasMissingDesignatedInitializers final public class ResultSet : Swift.Sequence, Swift.IteratorProtocol {
   public typealias Element = CouchbaseLiteSwift.Result
   final public func next() -> CouchbaseLiteSwift.Result?
   final public func allResults() -> [CouchbaseLiteSwift.Result]
   @objc deinit
   public typealias Iterator = CouchbaseLiteSwift.ResultSet
 }
-final public class Limit : CouchbaseLiteSwift.Query {
+@_hasMissingDesignatedInitializers final public class Limit : CouchbaseLiteSwift.Query {
   @objc deinit
 }
 public protocol ConflictResolverProtocol {
   func resolve(conflict: CouchbaseLiteSwift.Conflict) -> CouchbaseLiteSwift.Document?
 }
-final public class ConflictResolver {
+@_hasMissingDesignatedInitializers final public class ConflictResolver {
   public static var `default`: CouchbaseLiteSwift.ConflictResolverProtocol {
     get
   }
@@ -655,6 +731,11 @@ final public class ConflictResolver {
 }
 extension Database {
   final public func changeEncryptionKey(_ key: CouchbaseLiteSwift.EncryptionKey?) throws
+}
+@available(OSX 10.12, iOS 10.0, *)
+public struct ClientCertificateAuthenticator {
+  public let identity: CouchbaseLiteSwift.TLSIdentity
+  public init(identity: CouchbaseLiteSwift.TLSIdentity)
 }
 public struct DatabaseEndpoint {
   public let database: CouchbaseLiteSwift.Database
@@ -692,7 +773,7 @@ public protocol MutableDictionaryProtocol : CouchbaseLiteSwift.DictionaryProtoco
   func array(forKey key: Swift.String) -> CouchbaseLiteSwift.MutableArrayObject?
   func dictionary(forKey key: Swift.String) -> CouchbaseLiteSwift.MutableDictionaryObject?
 }
-final public class MutableDictionaryObject : CouchbaseLiteSwift.DictionaryObject, CouchbaseLiteSwift.MutableDictionaryProtocol {
+@_hasMissingDesignatedInitializers final public class MutableDictionaryObject : CouchbaseLiteSwift.DictionaryObject, CouchbaseLiteSwift.MutableDictionaryProtocol {
   public init()
   public init(data: Swift.Dictionary<Swift.String, Any>?)
   @discardableResult
@@ -748,7 +829,7 @@ public protocol DictionaryProtocol : CouchbaseLiteSwift.DictionaryFragment {
   func contains(key: Swift.String) -> Swift.Bool
   func toDictionary() -> Swift.Dictionary<Swift.String, Any>
 }
-public class DictionaryObject : CouchbaseLiteSwift.DictionaryProtocol, Swift.Equatable, Swift.Hashable, Swift.Sequence {
+@_hasMissingDesignatedInitializers public class DictionaryObject : CouchbaseLiteSwift.DictionaryProtocol, Swift.Equatable, Swift.Hashable, Swift.Sequence {
   public var count: Swift.Int {
     get
   }
@@ -780,7 +861,7 @@ public class DictionaryObject : CouchbaseLiteSwift.DictionaryProtocol, Swift.Equ
   }
   @objc deinit
   public func hash(into hasher: inout Swift.Hasher)
-  public typealias Element = Swift.String
+  public typealias Element = Swift.IndexingIterator<[Swift.String]>.Element
   public typealias Iterator = Swift.IndexingIterator<[Swift.String]>
 }
 public enum ReplicatorType : Swift.UInt8 {
@@ -803,7 +884,7 @@ public struct DocumentFlags : Swift.OptionSet {
   public typealias RawValue = Swift.Int
 }
 public typealias ReplicationFilter = (CouchbaseLiteSwift.Document, CouchbaseLiteSwift.DocumentFlags) -> Swift.Bool
-public class ReplicatorConfiguration {
+@_hasMissingDesignatedInitializers public class ReplicatorConfiguration {
   final public let database: CouchbaseLiteSwift.Database
   final public let target: CouchbaseLiteSwift.Endpoint
   public var replicatorType: CouchbaseLiteSwift.ReplicatorType {
@@ -815,6 +896,10 @@ public class ReplicatorConfiguration {
     set
   }
   public var authenticator: CouchbaseLiteSwift.Authenticator? {
+    get
+    set
+  }
+  public var acceptOnlySelfSignedServerCertificate: Swift.Bool {
     get
     set
   }
@@ -850,30 +935,34 @@ public class ReplicatorConfiguration {
     get
     set
   }
+  public var heartbeat: Swift.Double {
+    get
+    set
+  }
   public init(database: CouchbaseLiteSwift.Database, target: CouchbaseLiteSwift.Endpoint)
   convenience public init(config: CouchbaseLiteSwift.ReplicatorConfiguration)
   @objc deinit
 }
 public protocol Index {
 }
-final public class ValueIndex : CouchbaseLiteSwift.Index {
+@_hasMissingDesignatedInitializers final public class ValueIndex : CouchbaseLiteSwift.Index {
   @objc deinit
 }
-final public class ValueIndexItem {
+@_hasMissingDesignatedInitializers final public class ValueIndexItem {
   final public class func property(_ property: Swift.String) -> CouchbaseLiteSwift.ValueIndexItem
   final public class func expression(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.ValueIndexItem
   @objc deinit
 }
-final public class FullTextIndex : CouchbaseLiteSwift.Index {
+@_hasMissingDesignatedInitializers final public class FullTextIndex : CouchbaseLiteSwift.Index {
   final public func ignoreAccents(_ ignoreAccents: Swift.Bool) -> Self
   final public func language(_ language: Swift.String?) -> Self
   @objc deinit
 }
-public class FullTextIndexItem {
+@_hasMissingDesignatedInitializers public class FullTextIndexItem {
   public class func property(_ property: Swift.String) -> CouchbaseLiteSwift.FullTextIndexItem
   @objc deinit
 }
-final public class Blob : Swift.Equatable, Swift.Hashable {
+@_hasMissingDesignatedInitializers final public class Blob : Swift.Equatable, Swift.Hashable {
   convenience public init(contentType: Swift.String, data: Foundation.Data)
   convenience public init(contentType: Swift.String, contentStream: Foundation.InputStream)
   convenience public init(contentType: Swift.String, fileURL: Foundation.URL) throws
@@ -900,9 +989,9 @@ final public class Blob : Swift.Equatable, Swift.Hashable {
     get
   }
   @objc deinit
-  public func hash(into hasher: inout Swift.Hasher)
+  final public func hash(into hasher: inout Swift.Hasher)
 }
-final public class FullTextFunction {
+@_hasMissingDesignatedInitializers final public class FullTextFunction {
   public static func rank(_ indexName: Swift.String) -> CouchbaseLiteSwift.ExpressionProtocol
   @objc deinit
 }
@@ -933,7 +1022,7 @@ public protocol ArrayProtocol : CouchbaseLiteSwift.ArrayFragment {
   func dictionary(at index: Swift.Int) -> CouchbaseLiteSwift.DictionaryObject?
   func toArray() -> Swift.Array<Any>
 }
-public class ArrayObject : CouchbaseLiteSwift.ArrayProtocol, Swift.Equatable, Swift.Hashable, Swift.Sequence {
+@_hasMissingDesignatedInitializers public class ArrayObject : CouchbaseLiteSwift.ArrayProtocol, Swift.Equatable, Swift.Hashable, Swift.Sequence {
   public var count: Swift.Int {
     get
   }
@@ -964,7 +1053,7 @@ public class ArrayObject : CouchbaseLiteSwift.ArrayProtocol, Swift.Equatable, Sw
   public typealias Element = Any
   public typealias Iterator = Swift.AnyIterator<Any>
 }
-final public class ArrayExpression {
+@_hasMissingDesignatedInitializers final public class ArrayExpression {
   public static func variable(_ name: Swift.String) -> CouchbaseLiteSwift.VariableExpressionProtocol
   public static func any(_ variable: CouchbaseLiteSwift.VariableExpressionProtocol) -> CouchbaseLiteSwift.ArrayExpressionIn
   public static func every(_ variable: CouchbaseLiteSwift.VariableExpressionProtocol) -> CouchbaseLiteSwift.ArrayExpressionIn
@@ -995,7 +1084,7 @@ public protocol ExpressionProtocol {
   func `in`(_ expressions: [CouchbaseLiteSwift.ExpressionProtocol]) -> CouchbaseLiteSwift.ExpressionProtocol
   func collate(_ collation: CouchbaseLiteSwift.CollationProtocol) -> CouchbaseLiteSwift.ExpressionProtocol
 }
-final public class Expression {
+@_hasMissingDesignatedInitializers final public class Expression {
   public static func property(_ property: Swift.String) -> CouchbaseLiteSwift.PropertyExpressionProtocol
   public static func all() -> CouchbaseLiteSwift.PropertyExpressionProtocol
   public static func value(_ value: Any?) -> CouchbaseLiteSwift.ExpressionProtocol
@@ -1014,7 +1103,7 @@ final public class Expression {
   public static func not(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.ExpressionProtocol
   @objc deinit
 }
-final public class Where : CouchbaseLiteSwift.Query {
+@_hasMissingDesignatedInitializers final public class Where : CouchbaseLiteSwift.Query {
   final public func orderBy(_ orderings: CouchbaseLiteSwift.OrderingProtocol...) -> CouchbaseLiteSwift.OrderBy
   final public func orderBy(_ orderings: [CouchbaseLiteSwift.OrderingProtocol]) -> CouchbaseLiteSwift.OrderBy
   final public func groupBy(_ expressions: CouchbaseLiteSwift.ExpressionProtocol...) -> CouchbaseLiteSwift.GroupBy
@@ -1023,7 +1112,7 @@ final public class Where : CouchbaseLiteSwift.Query {
   final public func limit(_ limit: CouchbaseLiteSwift.ExpressionProtocol, offset: CouchbaseLiteSwift.ExpressionProtocol?) -> CouchbaseLiteSwift.Limit
   @objc deinit
 }
-final public class MutableDocument : CouchbaseLiteSwift.Document, CouchbaseLiteSwift.MutableDictionaryProtocol {
+@_hasMissingDesignatedInitializers final public class MutableDocument : CouchbaseLiteSwift.Document, CouchbaseLiteSwift.MutableDictionaryProtocol {
   convenience public init()
   convenience public init(id: Swift.String?)
   convenience public init(data: Swift.Dictionary<Swift.String, Any>?)
@@ -1078,6 +1167,16 @@ public enum ConcurrencyControl : Swift.UInt8 {
     get
   }
 }
+public enum MaintenanceType : Swift.UInt8 {
+  case compact
+  case reindex
+  case integrityCheck
+  public typealias RawValue = Swift.UInt8
+  public init?(rawValue: Swift.UInt8)
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
 final public class Database {
   public init(name: Swift.String, config: CouchbaseLiteSwift.DatabaseConfiguration = DatabaseConfiguration()) throws
   final public var name: Swift.String {
@@ -1120,6 +1219,8 @@ final public class Database {
   final public func removeChangeListener(withToken token: CouchbaseLiteSwift.ListenerToken)
   final public func close() throws
   final public func delete() throws
+  final public func performMaintenance(type: CouchbaseLiteSwift.MaintenanceType) throws
+  @available(*, deprecated, message: "Use performMaintenance(type:) instead.")
   final public func compact() throws
   public static func delete(withName name: Swift.String, inDirectory directory: Swift.String? = nil) throws
   public static func exists(withName name: Swift.String, inDirectory directory: Swift.String? = nil) -> Swift.Bool
@@ -1129,7 +1230,7 @@ final public class Database {
   public static let log: CouchbaseLiteSwift.Log
   @objc deinit
 }
-final public class From : CouchbaseLiteSwift.Query {
+@_hasMissingDesignatedInitializers final public class From : CouchbaseLiteSwift.Query {
   final public func join(_ joins: CouchbaseLiteSwift.JoinProtocol...) -> CouchbaseLiteSwift.Joins
   final public func join(_ joins: [CouchbaseLiteSwift.JoinProtocol]) -> CouchbaseLiteSwift.Joins
   final public func `where`(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.Where
@@ -1141,30 +1242,30 @@ final public class From : CouchbaseLiteSwift.Query {
   final public func limit(_ limit: CouchbaseLiteSwift.ExpressionProtocol, offset: CouchbaseLiteSwift.ExpressionProtocol?) -> CouchbaseLiteSwift.Limit
   @objc deinit
 }
-final public class Message {
+@_hasMissingDesignatedInitializers final public class Message {
   public static func fromData(_ data: Foundation.Data) -> CouchbaseLiteSwift.Message
   final public func toData() -> Foundation.Data
   @objc deinit
 }
-final public class Select : CouchbaseLiteSwift.Query {
+@_hasMissingDesignatedInitializers final public class Select : CouchbaseLiteSwift.Query {
   final public func from(_ dataSource: CouchbaseLiteSwift.DataSourceProtocol) -> CouchbaseLiteSwift.From
   @objc deinit
 }
-final public class OrderBy : CouchbaseLiteSwift.Query {
+@_hasMissingDesignatedInitializers final public class OrderBy : CouchbaseLiteSwift.Query {
   final public func limit(_ limit: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.Limit
   final public func limit(_ limit: CouchbaseLiteSwift.ExpressionProtocol, offset: CouchbaseLiteSwift.ExpressionProtocol?) -> CouchbaseLiteSwift.Limit
   @objc deinit
 }
 public protocol CollationProtocol {
 }
-final public class Collation {
+@_hasMissingDesignatedInitializers final public class Collation {
   public static func ascii() -> CouchbaseLiteSwift.Collation.ASCII
   public static func unicode() -> CouchbaseLiteSwift.Collation.Unicode
-  final public class ASCII : CouchbaseLiteSwift.CollationProtocol {
+  @_hasMissingDesignatedInitializers final public class ASCII : CouchbaseLiteSwift.CollationProtocol {
     final public func ignoreCase(_ ignoreCase: Swift.Bool) -> Self
     @objc deinit
   }
-  final public class Unicode : CouchbaseLiteSwift.CollationProtocol {
+  @_hasMissingDesignatedInitializers final public class Unicode : CouchbaseLiteSwift.CollationProtocol {
     final public func ignoreCase(_ ignoreCase: Swift.Bool) -> Self
     final public func ignoreAccents(_ ignoreAccents: Swift.Bool) -> Self
     final public func locale(_ locale: Swift.String?) -> Self
@@ -1172,7 +1273,7 @@ final public class Collation {
   }
   @objc deinit
 }
-public class FileLogger {
+@_hasMissingDesignatedInitializers public class FileLogger {
   public var config: CouchbaseLiteSwift.LogFileConfiguration? {
     get
     set
@@ -1181,6 +1282,41 @@ public class FileLogger {
     get
     set
   }
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @available(OSX 10.12, iOS 10.0, *)
+public class URLEndpointListenerConfiguration {
+  final public let database: CouchbaseLiteSwift.Database
+  public var port: Swift.UInt16? {
+    get
+    set
+  }
+  public var networkInterface: Swift.String? {
+    get
+    set
+  }
+  public var disableTLS: Swift.Bool {
+    get
+    set
+  }
+  public var tlsIdentity: CouchbaseLiteSwift.TLSIdentity? {
+    get
+    set
+  }
+  public var authenticator: CouchbaseLiteSwift.ListenerAuthenticator? {
+    get
+    set
+  }
+  public var enableDeltaSync: Swift.Bool {
+    get
+    set
+  }
+  public var readOnly: Swift.Bool {
+    get
+    set
+  }
+  public init(database: CouchbaseLiteSwift.Database)
+  convenience public init(config: CouchbaseLiteSwift.URLEndpointListenerConfiguration)
   @objc deinit
 }
 public protocol MutableArrayProtocol : CouchbaseLiteSwift.ArrayProtocol, CouchbaseLiteSwift.MutableArrayFragment {
@@ -1263,7 +1399,7 @@ public protocol MutableArrayProtocol : CouchbaseLiteSwift.ArrayProtocol, Couchba
   func array(at index: Swift.Int) -> CouchbaseLiteSwift.MutableArrayObject?
   func dictionary(at index: Swift.Int) -> CouchbaseLiteSwift.MutableDictionaryObject?
 }
-final public class MutableArrayObject : CouchbaseLiteSwift.ArrayObject, CouchbaseLiteSwift.MutableArrayProtocol {
+@_hasMissingDesignatedInitializers final public class MutableArrayObject : CouchbaseLiteSwift.ArrayObject, CouchbaseLiteSwift.MutableArrayProtocol {
   public init()
   public init(data: Swift.Array<Any>?)
   @discardableResult
@@ -1363,7 +1499,7 @@ public struct MessagingError {
   public let isRecoverable: Swift.Bool
   public init(error: Swift.Error, isRecoverable: Swift.Bool)
 }
-public class Document : CouchbaseLiteSwift.DictionaryProtocol, Swift.Equatable, Swift.Hashable, Swift.Sequence {
+@_hasMissingDesignatedInitializers public class Document : CouchbaseLiteSwift.DictionaryProtocol, Swift.Equatable, Swift.Hashable, Swift.Sequence {
   public var id: Swift.String {
     get
   }
@@ -1402,9 +1538,9 @@ public class Document : CouchbaseLiteSwift.DictionaryProtocol, Swift.Equatable, 
   public var hashValue: Swift.Int {
     get
   }
-  @objc deinit
   public func hash(into hasher: inout Swift.Hasher)
-  public typealias Element = Swift.String
+  @objc deinit
+  public typealias Element = Swift.IndexingIterator<[Swift.String]>.Element
   public typealias Iterator = Swift.IndexingIterator<[Swift.String]>
 }
 public protocol SelectResultProtocol {
@@ -1415,7 +1551,7 @@ public protocol SelectResultAs : CouchbaseLiteSwift.SelectResultProtocol {
 public protocol SelectResultFrom : CouchbaseLiteSwift.SelectResultProtocol {
   func from(_ alias: Swift.String?) -> CouchbaseLiteSwift.SelectResultProtocol
 }
-final public class SelectResult {
+@_hasMissingDesignatedInitializers final public class SelectResult {
   public static func property(_ property: Swift.String) -> CouchbaseLiteSwift.SelectResultAs
   public static func expression(_ expression: CouchbaseLiteSwift.ExpressionProtocol) -> CouchbaseLiteSwift.SelectResultAs
   public static func all() -> CouchbaseLiteSwift.SelectResultFrom
@@ -1444,8 +1580,11 @@ public class MessageEndpoint {
 public protocol MetaExpressionProtocol : CouchbaseLiteSwift.ExpressionProtocol {
   func from(_ alias: Swift.String) -> CouchbaseLiteSwift.ExpressionProtocol
 }
-final public class Meta {
+@_hasMissingDesignatedInitializers final public class Meta {
   public static var id: CouchbaseLiteSwift.MetaExpressionProtocol {
+    get
+  }
+  public static var revisionID: CouchbaseLiteSwift.MetaExpressionProtocol {
     get
   }
   public static var sequence: CouchbaseLiteSwift.MetaExpressionProtocol {
@@ -1459,7 +1598,7 @@ final public class Meta {
   }
   @objc deinit
 }
-public class Log {
+@_hasMissingDesignatedInitializers public class Log {
   final public let console: CouchbaseLiteSwift.ConsoleLogger
   final public let file: CouchbaseLiteSwift.FileLogger
   public var custom: CouchbaseLiteSwift.Logger? {
@@ -1467,6 +1606,9 @@ public class Log {
     set
   }
   @objc deinit
+}
+@available(OSX 10.12, iOS 10.0, *)
+public protocol ListenerAuthenticator {
 }
 extension CouchbaseLiteSwift.BasicAuthenticator : CouchbaseLiteSwift.Authenticator {}
 extension CouchbaseLiteSwift.SessionAuthenticator : CouchbaseLiteSwift.Authenticator {}
@@ -1480,6 +1622,12 @@ extension CouchbaseLiteSwift.LogLevel : Swift.RawRepresentable {}
 extension CouchbaseLiteSwift.Replicator.ActivityLevel : Swift.Equatable {}
 extension CouchbaseLiteSwift.Replicator.ActivityLevel : Swift.Hashable {}
 extension CouchbaseLiteSwift.Replicator.ActivityLevel : Swift.RawRepresentable {}
+@available(OSX 10.12, iOS 10.0, *)
+extension CouchbaseLiteSwift.ListenerPasswordAuthenticator : CouchbaseLiteSwift.ListenerAuthenticator {}
+@available(OSX 10.12, iOS 10.0, *)
+extension CouchbaseLiteSwift.ListenerCertificateAuthenticator : CouchbaseLiteSwift.ListenerAuthenticator {}
+@available(OSX 10.12, iOS 10.0, *)
+extension CouchbaseLiteSwift.ClientCertificateAuthenticator : CouchbaseLiteSwift.Authenticator {}
 extension CouchbaseLiteSwift.DatabaseEndpoint : CouchbaseLiteSwift.Endpoint {}
 extension CouchbaseLiteSwift.ReplicatorType : Swift.Equatable {}
 extension CouchbaseLiteSwift.ReplicatorType : Swift.Hashable {}
@@ -1487,6 +1635,9 @@ extension CouchbaseLiteSwift.ReplicatorType : Swift.RawRepresentable {}
 extension CouchbaseLiteSwift.ConcurrencyControl : Swift.Equatable {}
 extension CouchbaseLiteSwift.ConcurrencyControl : Swift.Hashable {}
 extension CouchbaseLiteSwift.ConcurrencyControl : Swift.RawRepresentable {}
+extension CouchbaseLiteSwift.MaintenanceType : Swift.Equatable {}
+extension CouchbaseLiteSwift.MaintenanceType : Swift.Hashable {}
+extension CouchbaseLiteSwift.MaintenanceType : Swift.RawRepresentable {}
 extension CouchbaseLiteSwift.ProtocolType : Swift.Equatable {}
 extension CouchbaseLiteSwift.ProtocolType : Swift.Hashable {}
 extension CouchbaseLiteSwift.ProtocolType : Swift.RawRepresentable {}
