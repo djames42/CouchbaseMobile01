@@ -32,9 +32,9 @@ wait_for_container() {
 
 ## BEGIN ##
 CB_CONTAINERNAME=cb_sg
-CB_CONTAINERTAG=enterprise-6.6.5
+CB_CONTAINERTAG=enterprise-7.0.3
 SG_CONTAINERNAME=sync-gateway
-SG_CONTAINERTAG=2.8.0-enterprise
+SG_CONTAINERTAG=3.0.0-enterprise
 CB_CLUSTERNAME="Couchbase Mobile Demo"
 
 
@@ -127,7 +127,7 @@ curl ${CURL_DEBUG} -u Administrator:password http://127.0.0.1:8091/sampleBuckets
 
 # Create user: sync_gateway
 echo "**** Creating Sync Gateway User"
-curl ${CURL_DEBUG}  -X PUT --data "name=Sync Gateway&roles=ro_admin,bucket_full_access[demobucket]&password=password" \
+curl ${CURL_DEBUG}  -X PUT --data "name=Sync Gateway&roles=admin,bucket_full_access[demobucket]&password=password" \
 	-H "Content-Type: application/x-www-form-urlencoded" \
 	http://Administrator:password@127.0.0.1:8091/settings/rbac/users/local/sync_gateway
 
@@ -139,7 +139,7 @@ docker run -p 4984-4985:4984-4985 \
 	--name ${SG_CONTAINERNAME} \
 	-d \
 	-v "$LOCPATH/data/":/etc/sync_gateway/ \
-	couchbase/sync-gateway:${SG_CONTAINERTAG} -adminInterface :4985 /etc/sync_gateway/sync-gateway-config.json >/dev/null
+	couchbase/sync-gateway:${SG_CONTAINERTAG} -adminInterface :4985 /etc/sync_gateway/sg3-config.json >/dev/null
 
 # Setup Sync Gateway
 wait=20
@@ -152,10 +152,28 @@ if [ $success -ne 0 ]; then
 fi
 
 echo " " ; echo " "
+echo "**** CONFIGURING SYNC GATEWAY"
+
 echo "**** Creating Sync Gateway User"
-curl ${CURL_DEBUG}  --request POST -H 'Content-Type: application/json' \
-	--data '{ "name": "sync_gateway", "password": "password", "admin_channels": [ "*" ], "admin_roles": null,"email": "daniel.james@couchbase.com", "disabled": false }'  \
-	http://localhost:4985/demobucket/_user/ 2>/dev/null
+curl ${CURL_DEBUG}  --request PUT 'http://localhost:4985/demobucket/_user/sync_gateway' \
+	-H 'Content-Type: application/json' \
+	-H 'Authorization: Basic QWRtaW5pc3RyYXRvcjpwYXNzd29yZA==' \
+	--data-raw '{ \
+		"password": "password", \
+		"admin_channels": ["*"], \
+		"email": "daniel.james@couchbase.com", \
+		"disabled": false \
+	}'  2>/dev/null
+
+echo "**** Creating Database Connection for Sync Gateway"
+curl ${CURL_DEBUG}  --request PUT 'http://localhost:4985/demobucket/_config' \
+	-H 'Authorization: Basic QWRtaW5pc3RyYXRvcjpwYXNzd29yZA==' \
+	-H 'Content-Type: application/json' \
+	--data-raw '{ \
+		"enable_shared_bucket_access": true, \
+		"import_docs": true \
+	}'  2>/dev/null
+
 
 echo "**** Loading sample users into CB"
 docker exec -it ${CB_CONTAINERNAME} cbimport json -c couchbase://127.0.0.1 -u Administrator -p password -b demobucket -f list -d file://cb_share/names.json -t 1 -g contact::%email%::01

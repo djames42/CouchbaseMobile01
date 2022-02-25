@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,8 +18,7 @@
 		401311902485E2D20045F6E0 /* Couchbase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4013118F2485E2D20045F6E0 /* Couchbase.swift */; };
 		401311932485FAF00045F6E0 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401311912485FAF00045F6E0 /* ContactCell.swift */; };
 		401311942485FAF00045F6E0 /* ContactCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 401311922485FAF00045F6E0 /* ContactCell.xib */; };
-		4091A50625A3C8BA0060F5AC /* CouchbaseLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4091A50425A3C8910060F5AC /* CouchbaseLiteSwift.framework */; };
-		4091A50725A3C8BA0060F5AC /* CouchbaseLiteSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4091A50425A3C8910060F5AC /* CouchbaseLiteSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40998A6727C9402800DED8A6 /* CouchbaseLiteSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 40998A6627C9402800DED8A6 /* CouchbaseLiteSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,7 +28,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4091A50725A3C8BA0060F5AC /* CouchbaseLiteSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,9 +48,6 @@
 		4013118F2485E2D20045F6E0 /* Couchbase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Couchbase.swift; sourceTree = "<group>"; };
 		401311912485FAF00045F6E0 /* ContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		401311922485FAF00045F6E0 /* ContactCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactCell.xib; sourceTree = "<group>"; };
-		4091A50425A3C8910060F5AC /* CouchbaseLiteSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CouchbaseLiteSwift.framework; sourceTree = "<group>"; };
-		8F5ED089492A2C5E44063DD6 /* Pods-CouchbaseMobile01.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CouchbaseMobile01.release.xcconfig"; path = "Target Support Files/Pods-CouchbaseMobile01/Pods-CouchbaseMobile01.release.xcconfig"; sourceTree = "<group>"; };
-		DB2247573468B4D20DF5AB42 /* Pods-CouchbaseMobile01.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CouchbaseMobile01.debug.xcconfig"; path = "Target Support Files/Pods-CouchbaseMobile01/Pods-CouchbaseMobile01.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,29 +55,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4091A50625A3C8BA0060F5AC /* CouchbaseLiteSwift.framework in Frameworks */,
+				40998A6727C9402800DED8A6 /* CouchbaseLiteSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		139826B805928503265B7890 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				DB2247573468B4D20DF5AB42 /* Pods-CouchbaseMobile01.debug.xcconfig */,
-				8F5ED089492A2C5E44063DD6 /* Pods-CouchbaseMobile01.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		4013115E248574EA0045F6E0 = {
 			isa = PBXGroup;
 			children = (
 				40131169248574EA0045F6E0 /* CouchbaseMobile01 */,
 				40131168248574EA0045F6E0 /* Products */,
 				EE1962452AEBDF8588E2DE17 /* Frameworks */,
-				139826B805928503265B7890 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -140,7 +125,6 @@
 		EE1962452AEBDF8588E2DE17 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4091A50425A3C8910060F5AC /* CouchbaseLiteSwift.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -152,7 +136,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4013117B248574EB0045F6E0 /* Build configuration list for PBXNativeTarget "CouchbaseMobile01" */;
 			buildPhases = (
-				C214EA861EE34C83CC0561D4 /* [CP] Check Pods Manifest.lock */,
 				40131163248574EA0045F6E0 /* Sources */,
 				40131164248574EA0045F6E0 /* Frameworks */,
 				40131165248574EA0045F6E0 /* Resources */,
@@ -163,6 +146,9 @@
 			dependencies = (
 			);
 			name = CouchbaseMobile01;
+			packageProductDependencies = (
+				40998A6627C9402800DED8A6 /* CouchbaseLiteSwift */,
+			);
 			productName = CouchbaseMobile01;
 			productReference = 40131167248574EA0045F6E0 /* CBLiteDemo.app */;
 			productType = "com.apple.product-type.application";
@@ -191,6 +177,9 @@
 				Base,
 			);
 			mainGroup = 4013115E248574EA0045F6E0;
+			packageReferences = (
+				40998A6527C9402800DED8A6 /* XCRemoteSwiftPackageReference "couchbase-lite-swift-ee" */,
+			);
 			productRefGroup = 40131168248574EA0045F6E0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -213,31 +202,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		C214EA861EE34C83CC0561D4 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CouchbaseMobile01-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		40131163248574EA0045F6E0 /* Sources */ = {
@@ -394,7 +358,6 @@
 		};
 		4013117C248574EB0045F6E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB2247573468B4D20DF5AB42 /* Pods-CouchbaseMobile01.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -418,7 +381,6 @@
 		};
 		4013117D248574EB0045F6E0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F5ED089492A2C5E44063DD6 /* Pods-CouchbaseMobile01.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -462,6 +424,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		40998A6527C9402800DED8A6 /* XCRemoteSwiftPackageReference "couchbase-lite-swift-ee" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/couchbase/couchbase-lite-swift-ee.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		40998A6627C9402800DED8A6 /* CouchbaseLiteSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 40998A6527C9402800DED8A6 /* XCRemoteSwiftPackageReference "couchbase-lite-swift-ee" */;
+			productName = CouchbaseLiteSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4013115F248574EA0045F6E0 /* Project object */;
 }

@@ -95,7 +95,7 @@ class Couchbase {
         // ######################### Create replicators to push and pull changes to and from the cloud. ########
         let targetURL = "ws://\(K.CBConnect.dbSGIP):\(K.CBConnect.dbSGSGPort)/\(K.CBConnect.dbSGBucket)"  // ws://192.168.1.9:8091/bucket
         let targetEndpoint = URLEndpoint(url: URL(string: targetURL)!)  // Translate URL String to Endpoint
-        let replConfig = ReplicatorConfiguration(database: database, target: targetEndpoint) // Map replication btw local DB and remote CB Server
+        var replConfig = ReplicatorConfiguration(database: database, target: targetEndpoint) // Map replication btw local DB and remote CB Server
         replConfig.replicatorType = .pushAndPull // Can also be .push or .pull for one-way sync
         replConfig.continuous = true  // continuous vs manual/triggered sync
         
