@@ -134,7 +134,7 @@ curl ${CURL_DEBUG}  -X PUT --data "name=Sync Gateway&roles=admin,bucket_full_acc
 ################################################################################
 # Create Sync Gateway container
 echo "**** Creating Sync Gateway Container"
-docker run -p 4984-4985:4984-4985 \
+docker run -p 4984-4986:4984-4986 \
 	--network sync_gateway \
 	--name ${SG_CONTAINERNAME} \
 	-d \
@@ -144,7 +144,7 @@ docker run -p 4984-4985:4984-4985 \
 # Setup Sync Gateway
 wait=20
 echo -n "Waiting up to ${wait} seconds for sync gateway to start"
-wait_for_container ${wait} localhost 4985
+wait_for_container ${wait} localhost 4984
 success=$?
 if [ $success -ne 0 ]; then
 	echo "Sync Gateway container failed to start!" >&2
@@ -154,24 +154,31 @@ fi
 echo " " ; echo " "
 echo "**** CONFIGURING SYNC GATEWAY"
 
-echo "**** Creating Sync Gateway User"
+curl ${CURL_DEBUG}  --request PUT 'http://localhost:4985/demobucket/' \
+	-H 'Content-Type: application/json' \
+	-H 'Authorization: Basic QWRtaW5pc3RyYXRvcjpwYXNzd29yZA==' \
+	--data-raw '{
+		"bucket": "demobucket",
+		"num_index_replicas": 0
+	}'  2>/dev/null
+
 curl ${CURL_DEBUG}  --request PUT 'http://localhost:4985/demobucket/_user/sync_gateway' \
 	-H 'Content-Type: application/json' \
 	-H 'Authorization: Basic QWRtaW5pc3RyYXRvcjpwYXNzd29yZA==' \
-	--data-raw '{ \
-		"password": "password", \
-		"admin_channels": ["*"], \
-		"email": "daniel.james@couchbase.com", \
-		"disabled": false \
+	--data-raw '{
+		"password": "password",
+		"admin_channels": ["*"],
+		"email": "daniel.james@couchbase.com",
+		"disabled": false
 	}'  2>/dev/null
 
 echo "**** Creating Database Connection for Sync Gateway"
 curl ${CURL_DEBUG}  --request PUT 'http://localhost:4985/demobucket/_config' \
 	-H 'Authorization: Basic QWRtaW5pc3RyYXRvcjpwYXNzd29yZA==' \
 	-H 'Content-Type: application/json' \
-	--data-raw '{ \
-		"enable_shared_bucket_access": true, \
-		"import_docs": true \
+	--data-raw '{
+		"enable_shared_bucket_access": true,
+		"import_docs": true
 	}'  2>/dev/null
 
 
