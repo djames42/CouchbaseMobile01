@@ -32,9 +32,9 @@ wait_for_container() {
 
 ## BEGIN ##
 CB_CONTAINERNAME=cb_sg
-CB_CONTAINERTAG=enterprise-7.0.3
+CB_CONTAINERTAG=enterprise-7.6.3
 SG_CONTAINERNAME=sync-gateway
-SG_CONTAINERTAG=3.0.0-enterprise
+SG_CONTAINERTAG=3.2.0-enterprise
 CB_CLUSTERNAME="Couchbase Mobile Demo"
 
 
